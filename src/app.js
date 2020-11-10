@@ -5,7 +5,7 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const errorHandler = require('./errorhandler')
-
+const customersRouter = require('../customers/customers-router')
 
 const app = express()
 
@@ -17,6 +17,8 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
 app.use(errorHandler)
+
+app.use('/api',customersRouter)
 
 app.get('/', (req,res)=>{
     res.send('Hello, world!')
