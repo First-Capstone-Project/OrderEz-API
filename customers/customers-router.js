@@ -43,8 +43,25 @@ customersRouter
             .json(serializeCustomer(customer))
         })
         .catch(next) 
-
     })
-    
+
+customersRouter
+    .route('/customers/:customer_id')
+    .get((req,res,next)=>{
+        const {customer_id} = req.params
+
+        CustomerServices.getById(req.app.get('db'),customer_id)
+        .then(customer => {
+            if(!customer){
+                logger.error(`Customer with id ${customer_id} not Found`)
+                    return res.status(404).json({
+                        error: { message: 'Customer not Found' }
+                    })
+            }
+            res.json(serializeCustomer(customer))
+        })
+        .catch(next)
+    })
+
 
 module.exports = customersRouter

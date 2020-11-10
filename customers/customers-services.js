@@ -11,5 +11,12 @@ CustomersServices = {
             return rows[0]
         })
     },
+    getById(knex,id){
+        return knex
+        .from('customers')
+        .select('*')
+        .where('customer_id',id)
+        .first()
+    },
 }
 module.exports = CustomersServices
