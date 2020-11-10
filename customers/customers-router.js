@@ -3,6 +3,7 @@ const logger = require('../src/logger')
 const CustomerServices = require('./customers-services')
 const xss = require('xss')
 const path = require('path')
+const { serialize } = require('v8')
 
 const customersRouter = express.Router()
 const bodyParser = express.json()
@@ -24,5 +25,26 @@ customersRouter
             })
             .catch(next)
     })
+    .post(bodyParser,(req, res, next) => {
+        const {customer_name,customer_adress,customer_phone} = req.body
+        newCustomer = {customer_name,customer_adress,customer_phone}
+
+        for (const field of ['customer_name', 'customer_adress', 'customer_phone']) {
+            if (!req.body[field]) {
+              logger.error(`${field} is required`)
+              return res.status(400).send(`'${field}' is required`)
+            }
+        }
+        CustomerServices.insertCustomer(req.app.get('db'),newCustomer)
+        .then(customer =>{
+            res
+            .status(201)
+            .location(path.posix.join(req.originalUrl, `/${newCustomer.id}`))
+            .json(serializeCustomer(customer))
+        })
+        .catch(next) 
+
+    })
+    
 
 module.exports = customersRouter
