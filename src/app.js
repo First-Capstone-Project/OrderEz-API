@@ -6,7 +6,7 @@ const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const errorHandler = require('./errorhandler')
 const customersRouter = require('../customers/customers-router')
-
+const itemsRouter = require('../Items/items-router')
 const app = express()
 
 const morganOption = (NODE_ENV === 'production')
@@ -19,6 +19,7 @@ app.use(cors())
 app.use(errorHandler)
 
 app.use('/api',customersRouter)
+app.use('/api',itemsRouter)
 
 app.get('/', (req,res)=>{
     res.send('Hello, world!')

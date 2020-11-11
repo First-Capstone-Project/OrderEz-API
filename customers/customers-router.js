@@ -25,43 +25,44 @@ customersRouter
             })
             .catch(next)
     })
-    .post(bodyParser,(req, res, next) => {
-        const {customer_name,customer_adress,customer_phone} = req.body
-        newCustomer = {customer_name,customer_adress,customer_phone}
+    .post(bodyParser, (req, res, next) => {
+        const { customer_name, customer_adress, customer_phone } = req.body
+        newCustomer = { customer_name, customer_adress, customer_phone }
 
         for (const field of ['customer_name', 'customer_adress', 'customer_phone']) {
             if (!req.body[field]) {
-              logger.error(`${field} is required`)
-              return res.status(400).send(`'${field}' is required`)
+                logger.error(`${field} is required`)
+                return res.status(400).send(`'${field}' is required`)
             }
         }
-        CustomerServices.insertCustomer(req.app.get('db'),newCustomer)
-        .then(customer =>{
-            res
-            .status(201)
-            .location(path.posix.join(req.originalUrl, `/${newCustomer.id}`))
-            .json(serializeCustomer(customer))
-        })
-        .catch(next) 
+        CustomerServices.insertCustomer(req.app.get('db'), newCustomer)
+            .then(customer => {
+                res
+                    .status(201)
+                    .location(path.posix.join(req.originalUrl, `/${newCustomer.id}`))
+                    .json(serializeCustomer(customer))
+            })
+            .catch(next)
     })
 
 customersRouter
     .route('/customers/:customer_id')
-    .get((req,res,next)=>{
-        const {customer_id} = req.params
+    .get((req, res, next) => {
+        const { customer_id } = req.params
 
-        CustomerServices.getById(req.app.get('db'),customer_id)
-        .then(customer => {
-            if(!customer){
-                logger.error(`Customer with id ${customer_id} not Found`)
+        CustomerServices.getById(req.app.get('db'), customer_id)
+            .then(customer => {
+                if (!customer) {
+                    logger.error(`Customer with id ${customer_id} not Found`)
                     return res.status(404).json({
                         error: { message: 'Customer not Found' }
                     })
-            }
-            res.json(serializeCustomer(customer))
-        })
-        .catch(next)
+                }
+                res.json(serializeCustomer(customer))
+            })
+            .catch(next)
     })
 
 
-module.exports = customersRouter
+
+        module.exports = customersRouter
