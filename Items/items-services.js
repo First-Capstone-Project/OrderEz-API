@@ -32,6 +32,11 @@ ItemsServices = {
         .select('*')
         .where('type_id',id)
         .first()
+    },
+    getType(knex){
+        return knex
+        .select('*')
+        .from('item_types')
     }
 }
 

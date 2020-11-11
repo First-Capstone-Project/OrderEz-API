@@ -16,6 +16,10 @@ const serializeItem = item => ({
     price: item.item_price,
     type: item.type_name
 })
+const serializeType = type => ({
+    id: type.type_id,
+    name: xss(type.type_name)
+})
 
 itemsRouter
     .route('/items')
@@ -46,20 +50,30 @@ itemsRouter
 
 itemsRouter
     .route('/type/:type_id')
-    .get((req,res,next) =>{
-        const {type_id} = req.params
-        ItemsServices.getTypeId(req.app.get('db'),type_id)
-        .then(type => {
-            if (!type) {
-                logger.error(`Type with id ${type_id} not Found`)
-                return res.status(404).json({
-                    error: { message: 'Type not Found' }
-                })
-            }
-            res.json(type)
-        })
-        .catch(next)
+    .get((req, res, next) => {
+        const { type_id } = req.params
+        ItemsServices.getTypeId(req.app.get('db'), type_id)
+            .then(type => {
+                if (!type) {
+                    logger.error(`Type with id ${type_id} not Found`)
+                    return res.status(404).json({
+                        error: { message: 'Type not Found' }
+                    })
+                }
+                res.json(type)
+            })
+            .catch(next)
+    })
+
+itemsRouter
+    .route('/types')
+    .get((req, res, next) => {
+        ItemsServices.getType(req.app.get('db'))
+            .then(items => {
+                res.json(items.map(serializeType))
+            })
+            .catch(next)
     })
 
 
-        module.exports = itemsRouter
+module.exports = itemsRouter
