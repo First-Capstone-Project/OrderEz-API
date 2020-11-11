@@ -1,3 +1,4 @@
 {"message":"Customer with id 6 not Found","level":"error"}
 {"message":"customer_phone is required","level":"error"}
 {"message":"customer_name is required","level":"error"}
+{"message":"type_id_fk is required","level":"error"}

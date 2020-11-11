@@ -14,6 +14,12 @@ const serializeItem = item => ({
     id: item.item_id,
     name: xss(item.item_name),
     price: item.item_price,
+    type: item.type_id_fk
+})
+const serializeItem1 = item => ({
+    id: item.item_id,
+    name: xss(item.item_name),
+    price: item.item_price,
     type: item.type_name
 })
 const serializeType = type => ({
@@ -26,9 +32,28 @@ itemsRouter
     .get((req, res, next) => {
         ItemsServices.getAllitems(req.app.get('db'))
             .then(items => {
-                res.json(items.map(serializeItem))
+                res.json(items.map(serializeItem1))
             })
             .catch(next)
+    })
+    .post(bodyParser, (req, res, next) => {
+        const { item_name, item_price, type_id_fk } = req.body
+        newItem = { item_name, item_price, type_id_fk }
+
+        for (const field of ['item_name', 'item_price', 'type_id_fk']) {
+            if (!req.body[field]) {
+                logger.error(`${field} is required`)
+                return res.status(400).send(`'${field}' is required`)
+            }
+        }
+        ItemsServices.insertItem(req.app.get('db'),newItem)
+        .then(item => {
+            res
+            .status(201)
+            .location(path.posix.join(req.originalUrl, `/${newItem.id}`))
+            .json(serializeItem(item))
+        })
+        .catch(next)
     })
 
 itemsRouter

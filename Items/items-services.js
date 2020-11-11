@@ -37,7 +37,16 @@ ItemsServices = {
         return knex
         .select('*')
         .from('item_types')
-    }
+    },
+    insertItem(knex,newItem){
+        return knex
+        .insert(newItem)
+        .into('items')
+        .returning('*')
+        .then(rows=>{
+            return rows[0]
+        })
+    },
 }
 
 
