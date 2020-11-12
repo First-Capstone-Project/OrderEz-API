@@ -38,4 +38,15 @@ orderRouter
             })
             .catch(next)
     })
+orderRouter
+    .route('/reciept/:c_id')
+    .get((req,res,next)=> {
+        const {c_id} = req.params
+        OrderService.getReciept(req.app.get('db'),c_id)
+        .then(reciept => {
+            res.json(reciept)
+        })
+        .catch(next)
+    })
+
 module.exports = orderRouter    

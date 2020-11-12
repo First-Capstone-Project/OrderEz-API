@@ -14,7 +14,7 @@ const serializeItem = item => ({
     id: item.item_id,
     name: xss(item.item_name),
     price: item.item_price,
-    type: item.type_id_fk
+    type: item.type_name
 })
 
 const serializeType = type => ({
@@ -27,7 +27,7 @@ itemsRouter
     .get((req, res, next) => {
         ItemsServices.getAllitems(req.app.get('db'))
             .then(items => {
-                res.json(items.map(serializeItem))
+                res.json(items.rows.map(serializeItem))
             })
             .catch(next)
     })

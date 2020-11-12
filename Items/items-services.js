@@ -1,8 +1,8 @@
 ItemsServices = {
     getAllitems(knex) {
         return knex
-        .from('items')
-        .select('*')
+        .raw(`select i.item_id,i.item_name,i.item_price,it.type_name from items i
+        join item_types it on it.type_id = i.type_id_fk`)
     },
     insertItem(knex,newitem){
         return knex
@@ -45,3 +45,4 @@ ItemsServices = {
 
 
 module.exports = ItemsServices
+
