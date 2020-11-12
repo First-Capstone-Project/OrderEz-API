@@ -1,14 +1,8 @@
 ItemsServices = {
     getAllitems(knex) {
         return knex
-        .from('items as i')
-        .select(
-        'i.item_id',
-        'i.item_name',
-        'i.item_price',
-        'it.type_name')
-        .join('item_types as it','it.type_id','i.item_id')
-        
+        .from('items')
+        .select('*')
     },
     insertitem(knex,newitem){
         return knex
