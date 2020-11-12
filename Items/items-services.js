@@ -4,7 +4,7 @@ ItemsServices = {
         .from('items')
         .select('*')
     },
-    insertitem(knex,newitem){
+    insertItem(knex,newitem){
         return knex
         .insert(newitem)
         .into('items')
