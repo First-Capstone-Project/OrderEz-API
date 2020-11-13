@@ -48,5 +48,15 @@ orderRouter
         })
         .catch(next)
     })
+orderRouter
+    .route('/get/:id')
+    .get((req,res,next)=> {
+        const {id} = req.params
+        OrderService.getCustomer(req.app.get('db'),id)
+        .then(customer=>{
+            res.json(customer)
+        })
+        .catch(next)
+    })  
 
 module.exports = orderRouter    

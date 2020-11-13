@@ -23,6 +23,12 @@ OrderService = {
         join items i on i.item_id = oi.item_id_fk
         join item_types it on i.type_id_fk = it.type_id
         where customer_id_fk = ${id};`)
+    },
+    getCustomer(knex,id){
+        return knex
+        .raw(`select oc.order_date, c.customer_name,c.customer_adress,c.customer_phone from order_customers oc
+        join customers c on oc.customer_id_fk = c.customer_id
+        where order_customer_id = ${id}`)
     }
 }
 module.exports = OrderService
