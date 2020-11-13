@@ -40,23 +40,32 @@ orderRouter
     })
 orderRouter
     .route('/reciept/:c_id')
-    .get((req,res,next)=> {
-        const {c_id} = req.params
-        OrderService.getReciept(req.app.get('db'),c_id)
-        .then(reciept => {
-            res.json(reciept)
-        })
-        .catch(next)
+    .get((req, res, next) => {
+        const { c_id } = req.params
+        OrderService.getReciept(req.app.get('db'), c_id)
+            .then(reciept => {
+                res.json(reciept)
+            })
+            .catch(next)
     })
 orderRouter
     .route('/get/:id')
-    .get((req,res,next)=> {
-        const {id} = req.params
-        OrderService.getCustomer(req.app.get('db'),id)
-        .then(customer=>{
-            res.json(customer)
-        })
-        .catch(next)
-    })  
+    .get((req, res, next) => {
+        const { id } = req.params
+        OrderService.getCustomer(req.app.get('db'), id)
+            .then(customer => {
+                res.json(customer)
+            })
+            .catch(next)
+    })
+orderRouter
+    .route('/active')
+    .get((req, res, next) => {
+        OrderService.getAll(req.app.get('db'))
+            .then(all => {
+                res.json(all)
+            })
+            .catch(next)
+    })
 
 module.exports = orderRouter    

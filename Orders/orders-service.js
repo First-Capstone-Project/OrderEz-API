@@ -29,6 +29,14 @@ OrderService = {
         .raw(`select oc.order_date, c.customer_name,c.customer_adress,c.customer_phone from order_customers oc
         join customers c on oc.customer_id_fk = c.customer_id
         where order_customer_id = ${id}`)
+    },
+    getAll(knex){
+        return knex
+        .raw(`select oi.customer_id_fk,c.customer_name, c.customer_adress, array_agg(i.item_name), sum(i.item_price) from customers c
+        join order_customers oc on c.customer_id = oc.customer_id_fk
+        join orders_items oi on oc.order_customer_id = oi.customer_id_fk
+        join items i on oi.item_id_fk = i.item_id
+        group by oi.customer_id_fk ,c.customer_id;`)
     }
 }
 module.exports = OrderService
