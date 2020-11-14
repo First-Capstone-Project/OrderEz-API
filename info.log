@@ -2,3 +2,10 @@
 {"message":"customer_phone is required","level":"error"}
 {"message":"customer_name is required","level":"error"}
 {"message":"type_id_fk is required","level":"error"}
+{"message":"Customer with id 23 not Found","level":"error"}
+{"message":"Note with id 23 was deleted","level":"info"}
+{"message":"Customer with id 13 not Found","level":"error"}
+{"message":"Note with id 13 was deleted","level":"info"}
+{"message":"Note with id 14 was deleted","level":"info"}
+{"message":"Note with id 15 was deleted","level":"info"}
+{"message":"Note with id 16 was deleted","level":"info"}

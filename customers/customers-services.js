@@ -18,5 +18,16 @@ CustomersServices = {
         .where('customer_id',id)
         .first()
     },
+    update(knex,customer_id,newCustomer){
+        return knex('customers')
+        .where({customer_id})
+        .update(newCustomer)
+    },
+    delete(knex,customer_id){
+        return knex('customers')
+        .where({customer_id})
+        .delete()
+    },
+
 }
 module.exports = CustomersServices

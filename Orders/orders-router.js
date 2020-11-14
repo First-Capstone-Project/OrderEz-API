@@ -44,7 +44,9 @@ orderRouter
         const { c_id } = req.params
         OrderService.getReciept(req.app.get('db'), c_id)
             .then(reciept => {
-                res.json(reciept)
+                res
+                .status(200)
+                .json(reciept)
             })
             .catch(next)
     })

@@ -62,6 +62,49 @@ customersRouter
             })
             .catch(next)
     })
+    .patch(bodyParser,(req,res, next) =>{
+        const { customer_id } = req.params
+        CustomerServices.getById(req.app.get('db'), customer_id)
+        .then(customer =>{
+            if (!customer) {
+                logger.error(`Customer with id ${customer_Id} not Found`)
+                return res.status(404).json({
+                    error: { message: 'Customer not Found' }
+                })
+            }
+        })
+        for (const field of ['customer_name', 'customer_adress', 'customer_phone']) {
+            if (!req.body[field]) {
+              logger.error(`${field} is required`)
+              return res.status(400).send(`'${field}' is required`)
+            }
+        }
+        const {customer_name, customer_adress, customer_phone} = req.body
+        const newCustomer = {customer_name, customer_adress, customer_phone}
+
+        CustomerServices.update(req.app.get('db'),customer_id, newCustomer)
+        .then(res.status(204).end())
+        .catch(next)
+    })
+    .delete((req, res, next) => {
+        const { customer_id } = req.params
+        CustomerServices.getById(req.app.get('db'), customer_id)
+        .then(customer =>{
+            if (!customer) {
+                logger.error(`Customer with id ${customer_id} not Found`)
+                return res.status(404).json({
+                    error: { message: 'Customer not Found' }
+                })
+            } 
+        })
+        CustomerServices.delete(req.app.get('db'),customer_id)
+        .then(() => {
+            logger.info(`Note with id ${customer_id} was deleted`)
+            res.status(204).end()
+        })
+        .catch(next)
+
+    })
 
 
 
