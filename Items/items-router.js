@@ -67,6 +67,48 @@ itemsRouter
             })
             .catch(next)
     })
+    .delete((req, res, next)=> {
+        const {item_id} = req.params
+        ItemsServices.getById(req.app.get('db'), item_id)
+        .then(item => {
+            if (!item) {
+                logger.error(`Item with id ${item_id} not Found`)
+                return res.status(404).json({
+                    error: { message: 'Item not Found' }
+                })
+            }
+        })
+        ItemsServices.delete(req.app.get('db'),item_id)
+        .then(() => {
+            logger.info(`Item with id ${item_id} was deleted`)
+            res.status(204).end()
+        })
+        .catch(next)
+    })
+    .patch(bodyParser, (req, res, next)=>{
+        const { item_id } = req.params
+        ItemsServices.getById(req.app.get('db'), item_id)
+        .then(item => {
+            if (!item) {
+                logger.error(`Item with id ${item_id} not Found`)
+                return res.status(404).json({
+                    error: { message: 'Item not Found' }
+                })
+            }
+        })
+        for (const field of ['item_name', 'item_price']) {
+            if (!req.body[field]) {
+              logger.error(`${field} is required`)
+              return res.status(400).send(`'${field}' is required`)
+            }
+        }
+        const {item_name, item_price} = req.body
+        const newItem = {item_name, item_price}
+
+        ItemsServices.update(req.app.get('db'),item_id,newItem)
+        .then(res.status(204).end())
+        .catch(next)
+    })
 
 itemsRouter
     .route('/type/:type_id')

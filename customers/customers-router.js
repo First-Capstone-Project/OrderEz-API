@@ -99,7 +99,7 @@ customersRouter
         })
         CustomerServices.delete(req.app.get('db'),customer_id)
         .then(() => {
-            logger.info(`Note with id ${customer_id} was deleted`)
+            logger.info(`Customer with id ${customer_id} was deleted`)
             res.status(204).end()
         })
         .catch(next)

@@ -41,6 +41,17 @@ ItemsServices = {
             return rows[0]
         })
     },
+    delete(knex,item_id){
+        return knex('items')
+        .where({item_id})
+        .delete()
+    },
+    update(knex,item_id,newItem){
+        return knex('items')
+        .where({item_id})
+        .update(newItem)
+    }
+
 }
 
 
