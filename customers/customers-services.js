@@ -28,6 +28,11 @@ CustomersServices = {
         .where({customer_id})
         .delete()
     },
+    filter(knex,num){
+        return knex
+        .raw(`select * from customers
+        where customer_phone ilike '%${num}%'`)
+    }
 
 }
 module.exports = CustomersServices

@@ -11,3 +11,8 @@
 {"message":"Note with id 16 was deleted","level":"info"}
 {"message":"Item with id 19 was deleted","level":"info"}
 {"message":"Item with id 18 was deleted","level":"info"}
+{"message":"Customer with id 12 was deleted","level":"info"}
+{"message":"Customer with id 18 was deleted","level":"info"}
+{"message":"Customer with id 19 was deleted","level":"info"}
+{"message":"Customer with id 17 was deleted","level":"info"}
+{"message":"Customer with id 20 was deleted","level":"info"}

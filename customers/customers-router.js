@@ -9,11 +9,11 @@ const customersRouter = express.Router()
 const bodyParser = express.json()
 
 const serializeCustomer = customer => ({
-    id: customer.customer_id,
-    name: xss(customer.customer_name),
-    adress: xss(customer.customer_adress),
-    phone: xss(customer.customer_phone),
-    email: xss(customer.customer_email)
+    customer_id: customer.customer_id,
+    customer_name: xss(customer.customer_name),
+    customer_adress: xss(customer.customer_adress),
+    customer_phone: xss(customer.customer_phone),
+    customer_email: xss(customer.customer_email)
 })
 
 customersRouter
@@ -104,6 +104,22 @@ customersRouter
         })
         .catch(next)
 
+    })
+    customersRouter
+    .route('/filter/:num')
+    .get((req, res, next)=>{
+        const {num} = req.params
+        CustomerServices.filter(req.app.get('db'), num)
+        .then(customer => {
+            if (!customer) {
+                logger.error(`Customer with id ${customer_id} not Found`)
+                return res.status(404).json({
+                    error: { message: 'Customer not Found' }
+                })
+            }
+            res.json(customer)
+        })
+        .catch(next)
     })
 
 
