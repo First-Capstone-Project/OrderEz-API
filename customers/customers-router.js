@@ -8,6 +8,7 @@ const { serialize } = require('v8')
 const customersRouter = express.Router()
 const bodyParser = express.json()
 
+
 const serializeCustomer = customer => ({
     customer_id: customer.customer_id,
     customer_name: xss(customer.customer_name),
@@ -15,6 +16,7 @@ const serializeCustomer = customer => ({
     customer_phone: xss(customer.customer_phone),
     customer_email: xss(customer.customer_email)
 })
+
 
 customersRouter
     .route('/customers')
