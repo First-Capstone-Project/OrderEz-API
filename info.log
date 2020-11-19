@@ -89,3 +89,4 @@
 {"message":"Customer with id 999 not Found","level":"error"}
 {"message":"Customers with number 999 not Found","level":"error"}
 {"message":"Customers with number 999 not Found","level":"error"}
+{"message":"Customers with number 705 not Found","level":"error"}

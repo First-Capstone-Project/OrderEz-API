@@ -61,9 +61,10 @@ orderRouter
             .catch(next)
     })
 orderRouter
-    .route('/active')
+    .route('/active/:name')
     .get((req, res, next) => {
-        OrderService.getAll(req.app.get('db'))
+        const {name} = req.params
+        OrderService.getAll(req.app.get('db'),name)
             .then(all => {
                 res.json(all)
             })
