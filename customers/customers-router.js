@@ -113,13 +113,14 @@ customersRouter
         const {num} = req.params
         CustomerServices.filter(req.app.get('db'), num)
         .then(customer => {
-            if (!customer) {
-                logger.error(`Customer with id ${customer_id} not Found`)
+            let array = customer.rows
+            if (array.length === 0) {
+                logger.error(`Customers with number ${num} not Found`)
                 return res.status(404).json({
-                    error: { message: 'Customer not Found' }
+                    error: { message: 'Customers not Found' }
                 })
             }
-            res.json(customer)
+            res.json(customer.rows)
         })
         .catch(next)
     })
