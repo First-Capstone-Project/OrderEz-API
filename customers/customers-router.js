@@ -41,7 +41,6 @@ customersRouter
             .then(customer => {
                 res
                     .status(201)
-                    .location(path.posix.join(req.originalUrl, `/${newCustomer.id}`))
                     .json(serializeCustomer(customer))
             })
             .catch(next)
