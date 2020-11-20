@@ -109,3 +109,4 @@ function cleanTables(db) {
       makeOrderArray,
       seedOrdersTables
   }
+
